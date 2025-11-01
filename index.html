@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Noto+Sans+KR:wght@100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+  <div class="container">
+    <h1>Todo List📝</h1>
+    <section class="input-area">
+      <div class="task-input-group">
+        <input type="text" id="task-input" class="input-field" placeholder="할 일을 입력하세요" />
+        <select id="category-select" class="input-field"></select>
+        <input type="date" id="todo-deadline" class="input-field" />
+        <button id="add-button">+</button>
+      </div>
+
+      <div class="category-input-group">
+        <input type="text" id="new-category-name" class="input-field" placeholder="새 카테고리 이름" onkeyup="handleCategoryKeyup(event)" />
+        <input type="color" id="new-category-color" value="#3b82f6" class="input-field color-input" />
+      </div>
+    </section>
+
+    <section class="task-area">
+      <div class="task-tabs">
+        <div id="under-line"></div>
+        <div>모두</div>
+        <div>진행중</div>
+        <div>끝남</div>
+      </div>
+        <div id="task-board">
+        </div>
+      </section>
+    </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
