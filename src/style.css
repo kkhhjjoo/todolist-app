@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: url(images/background.jpeg);
+  background: url(../images/background.jpeg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -102,6 +102,10 @@ button {
   top: 50px;
   padding: 0;
 }
+.task-done {
+  text-decoration: line-through;
+}
+
 
 @media (max-width: 768px) {
   
