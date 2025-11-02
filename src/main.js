@@ -2,6 +2,13 @@
 // 1. 초기 데이터 설정
 //=====================================
 
+/**
+ * 랜덤 ID 생성하기 (먼저 선언)
+ */
+function randomIDGenerate() {
+  return '_' + Math.random().toString(36).substring(2, 9);
+}
+
 // 카테고리 목록
 const categories = [
   { name: '업무', color: '#DFF2D8' },
@@ -424,31 +431,24 @@ function showNotification(message, color = '#4b5563') {
     opacity: 0;
     transform: translateX(20px);
     transition: opacity 0.3s ease, transform 0.3s ease;
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: "Gamja Flower", sans-serif;
   `;
 
   document.body.appendChild(notification);
 
   // 애니메이션으로 나타나기
-  // requestAnimationFrame(() => {
-  //   notification.style.opacity = '1';
-  //   notification.style.transform = 'translateX(0)';
-  // });
+  requestAnimationFrame(() => {
+    notification.style.opacity = '1';
+    notification.style.transform = 'translateX(0)';
+  });
 
   // 2초 후 사라지기
-  // setTimeout(() => {
-  //   notification.style.opacity = '0';
-  //   notification.style.transform = 'translateX(20px)';
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    notification.style.transform = 'translateX(20px)';
 
-  //   setTimeout(() => {
-  //     notification.remove();
-  //   }, 300);
-  // }, 2000);
-}
-
-/**
- * 랜덤 ID 생성하기
- */
-function randomIDGenerate() {
-  return '_' + Math.random().toString(36).substring(2, 9);
+    setTimeout(() => {
+      notification.remove();
+    }, 300);
+  }, 2000);
 }
