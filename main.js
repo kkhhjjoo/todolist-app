@@ -50,16 +50,28 @@ const taskList = initialTodos.map((todo) => ({
   id: todo.id ?? randomIDGenerate(),
 }));
 
+// 현재 필터 모드 ('all', 'ongoing', 'done')
+let currentFilterMode = 'all';
+
 //=====================================
 // 2. HTML 요소 가져오기
 //=====================================
 
 let taskInput = document.getElementById('task-input');
+let tabs = document.querySelectorAll('.task-tabs div');
 const todoDeadline = document.getElementById('todo-deadline');
 const addBtn = document.getElementById('add-button');
 const categorySelect = document.getElementById('category-select');
 const taskBoard = document.getElementById('task-board');
 
+// 모든 탭에 필터 이벤트 리스너 추가 (under-line 제외)
+tabs.forEach((tab) => {
+  if (tab.id && tab.id !== 'under-line') {
+    tab.addEventListener('click', function (event) {
+      filter(event);
+    });
+  }
+});
 //=====================================
 // 3. 할 일 입력창 생성 (없을 경우)
 //=====================================
@@ -212,7 +224,15 @@ function addTask() {
 function render() {
   if (!taskBoard) return;
 
-  const html = taskList
+  // 필터 모드에 따라 표시할 리스트 결정
+  let displayList = taskList;
+  if (currentFilterMode === 'ongoing') {
+    displayList = taskList.filter((task) => task.done === false);
+  } else if (currentFilterMode === 'done') {
+    displayList = taskList.filter((task) => task.done === true);
+  }
+
+  const html = displayList
     .map((task, index) => {
       const isDone = Boolean(task.done);
       const checkIcon = isDone ? '↩️' : '✅';
@@ -451,4 +471,23 @@ function showNotification(message, color = '#4b5563') {
       notification.remove();
     }, 300);
   }, 2000);
+}
+
+function filter(event) {
+  if (!event || !event.target || !event.target.id) {
+    return;
+  }
+
+  let mode = event.target.id;
+
+  // 유효한 필터 모드인지 확인
+  if (mode !== 'all' && mode !== 'ongoing' && mode !== 'done') {
+    return;
+  }
+
+  // 현재 필터 모드 업데이트
+  currentFilterMode = mode;
+
+  // 필터 모드에 따라 화면 갱신
+  render();
 }
