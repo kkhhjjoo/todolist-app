@@ -63,15 +63,17 @@ const todoDeadline = document.getElementById('todo-deadline');
 const addBtn = document.getElementById('add-button');
 const categorySelect = document.getElementById('category-select');
 const taskBoard = document.getElementById('task-board');
+const underLine = document.getElementById('under-line');
 
 // 모든 탭에 필터 이벤트 리스너 추가 (under-line 제외)
-tabs.forEach((tab) => {
-  if (tab.id && tab.id !== 'under-line') {
-    tab.addEventListener('click', function (event) {
-      filter(event);
-    });
-  }
-});
+for (let i = 0; i < tabs.length; i++) {
+  // under-line 요소는 이벤트 리스너 추가하지 않음
+  if (tabs[i].id === 'under-line') continue;
+
+  tabs[i].addEventListener('click', function (event) {
+    filter(event);
+  });
+}
 //=====================================
 // 3. 할 일 입력창 생성 (없을 경우)
 //=====================================
@@ -473,21 +475,30 @@ function showNotification(message, color = '#4b5563') {
   }, 2000);
 }
 
-function filter(event) {
-  if (!event || !event.target || !event.target.id) {
+/**
+ * 필터 모드 변경하기
+ */
+function filter(e) {
+  if (!e || !e.target) return;
+
+  const targetId = e.target.id;
+
+  // 'all', 'ongoing', 'done' 중 하나인지 확인
+  if (targetId !== 'all' && targetId !== 'ongoing' && targetId !== 'done') {
     return;
   }
 
-  let mode = event.target.id;
+  // 필터 모드 업데이트
+  currentFilterMode = targetId;
 
-  // 유효한 필터 모드인지 확인
-  if (mode !== 'all' && mode !== 'ongoing' && mode !== 'done') {
-    return;
+  // 언더라인 애니메이션 업데이트
+  if (underLine) {
+    underLine.style.width = e.target.offsetWidth + 'px';
+    underLine.style.left = e.target.offsetLeft + 'px';
+    underLine.style.top =
+      e.target.offsetTop + (e.target.offsetHeight - 4) + 'px';
   }
 
-  // 현재 필터 모드 업데이트
-  currentFilterMode = mode;
-
-  // 필터 모드에 따라 화면 갱신
+  // 화면 새로고침 (render 함수가 currentFilterMode를 사용하여 필터링)
   render();
 }
